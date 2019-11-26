@@ -94,9 +94,27 @@ const tasks = [
     const titleValue = inputTitle.value;
     const bodyValue = inputBody.value;
 
-    if (!titleValue || !bodyVAlue) {
+    if (!titleValue || !bodyValue) {
       alert('Введите задчу и её название');
       return;
     }
+
+    const task = createNewTask(titleValue, bodyValue);
+
+    const listItem = listItemTemplate(task);
+    listContainer.insertAdjacentElement('afterbegin', listItem);
+  }
+
+  function createNewTask(title, body) {
+    const newTask = {
+      title,
+      body,
+      completed: false,
+      _id: `task-${Math.random()}`,
+    };
+
+    objOfTasks[newTask._id] = newTask;
+
+    return { ...newTask };
   }
 })(tasks);
