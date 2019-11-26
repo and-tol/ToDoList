@@ -37,6 +37,9 @@ const tasks = [
     return acc;
   }, {});
 
+  // Elements UI
+  const listContainer = document.querySelector('.tasks-list-section .list-group');
+
   renderAllTasks(objOfTasks);
 
   function renderAllTasks(tasksList) {
@@ -51,6 +54,8 @@ const tasks = [
 
       fragment.appendChild(li);
     });
+
+    listContainer.appendChild(fragment);
   }
 
   function listItemTemplate({ _id, title, body } = {}) {
