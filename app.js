@@ -31,4 +31,10 @@ const tasks = [
   },
 ];
 
-(function(arrOfTasks) {})(tasks);
+(function(arrOfTasks) {
+  const objOfTasks = tasks.reduce((acc, task) => {
+    acc[task._id] = task;
+    return acc;
+  });
+  console.log(objOfTasks);
+})(tasks);
