@@ -35,7 +35,7 @@ const tasks = [
   const objOfTasks = tasks.reduce((acc, task) => {
     acc[task._id] = task;
     return acc;
-  });
+  }, {});
 
   renderAllTasks(objOfTasks);
 
@@ -48,6 +48,8 @@ const tasks = [
     const fragment = document.createDocumentFragment();
     Object.values(tasksList).forEach(task => {
       const li = listItemTemplate(task);
+
+      fragment.appendChild(li);
     });
   }
 
