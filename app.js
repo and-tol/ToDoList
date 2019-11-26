@@ -40,6 +40,10 @@ const tasks = [
   // Elements UI
   const listContainer = document.querySelector('.tasks-list-section .list-group');
 
+  const form = document.forms['addTask'];
+  const imputTitle = form.elements['title'];
+  const imputBody = form.elements['body'];
+
   renderAllTasks(objOfTasks);
 
   function renderAllTasks(tasksList) {
