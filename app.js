@@ -68,7 +68,7 @@ const tasks = [
 
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'Delete task';
-    deleteBtn.classList.add('btn', 'danger', 'ml-auto', 'delete-btn');
+    deleteBtn.classList.add('btn', 'btn-danger', 'ml-auto', 'delete-btn');
 
     const article = document.createElement('p');
     article.textContent = body;
