@@ -70,6 +70,7 @@ const tasks = [
     li.appendChild(span);
     li.appendChild(deleteBtn);
     li.appendChild(article);
-    console.log(li);
+
+    return li;
   }
 })(tasks);
