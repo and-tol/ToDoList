@@ -103,6 +103,8 @@ const tasks = [
 
     const listItem = listItemTemplate(task);
     listContainer.insertAdjacentElement('afterbegin', listItem);
+
+    form.reset;
   }
 
   function createNewTask(title, body) {
