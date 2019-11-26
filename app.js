@@ -36,5 +36,13 @@ const tasks = [
     acc[task._id] = task;
     return acc;
   });
-  console.log(objOfTasks);
+
+  renderAllTasks(objOfTasks);
+
+  function renderAllTasks(tasksList) {
+    if (!tasksList) {
+      console.error('Передайте список задач');
+      return;
+    }
+  }
 })(tasks);
