@@ -41,8 +41,8 @@ const tasks = [
   const listContainer = document.querySelector('.tasks-list-section .list-group');
 
   const form = document.forms['addTask'];
-  const imputTitle = form.elements['title'];
-  const imputBody = form.elements['body'];
+  const inputTitle = form.elements['title'];
+  const inputBody = form.elements['body'];
 
   // Events
   form.addEventListener('submit', onFormSumitHandler);
@@ -89,6 +89,14 @@ const tasks = [
   }
 
   function onFormSumitHandler(event) {
-    event.preventDefault;
+    event.preventDefault();
+
+    const titleValue = inputTitle.value;
+    const bodyValue = inputBody.value;
+
+    if (!titleValue || !bodyVAlue) {
+      alert('Введите задчу и её название');
+      return;
+    }
   }
 })(tasks);
