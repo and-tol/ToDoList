@@ -44,6 +44,9 @@ const tasks = [
   const imputTitle = form.elements['title'];
   const imputBody = form.elements['body'];
 
+  // Events
+  form.addEventListener('submit', onFormSumitHandler);
+
   renderAllTasks(objOfTasks);
 
   function renderAllTasks(tasksList) {
@@ -83,5 +86,9 @@ const tasks = [
     li.appendChild(article);
 
     return li;
+  }
+
+  function onFormSumitHandler(event) {
+    event.preventDefault;
   }
 })(tasks);
