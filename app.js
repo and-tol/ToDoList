@@ -32,6 +32,7 @@ const tasks = [
 ];
 
 (function(arrOfTasks) {
+  // array to object
   const objOfTasks = tasks.reduce((acc, task) => {
     acc[task._id] = task;
     return acc;
@@ -124,10 +125,10 @@ const tasks = [
   }
 
   // Delete task
-
   function deleteTask(id) {
     const { title } = objOfTasks[id];
     const isConfirm = confirm(`Вы уверены, что хотите удалить задачу: ${title}`);
+
     if (!isConfirm) {
       return isConfirm;
     }
@@ -150,6 +151,15 @@ const tasks = [
       const id = parent.dataset.taskId;
       const confirmed = deleteTask(id);
       deleteTaskFromHtml(confirmed, parent);
+    }
+  }
+
+  // check that the array of tasks is empty
+  function isNoTasks(arr) {
+    const noTasks = alert('У вас нет задач');
+
+    if (!arr.length) {
+      return noTasks;
     }
   }
 })(tasks);
