@@ -26,6 +26,7 @@ import tasks from './tasks.js';
   // Events
   form.addEventListener('submit', onFormSubmitHandler);
   listContainer.addEventListener('click', onDeleteHandler);
+  listContainer.addEventListener('click', onCompleteTaskHandler);
 
   renderAllTasks(objOfTasks);
 
@@ -48,8 +49,8 @@ import tasks from './tasks.js';
 
   function listItemTemplate({ _id, title, body } = {}) {
     const li = document.createElement('li');
-    li.classList.add('list-group-item', 'd-flex', 'align-items-center', 'flex-wrap', 'mt-2');
 
+    li.classList.add('list-group-item', 'd-flex', 'align-items-center', 'flex-wrap', 'mt-2');
     li.setAttribute('data-task-id', _id);
 
     const span = document.createElement('span');
@@ -58,15 +59,20 @@ import tasks from './tasks.js';
 
     const deleteBtn = document.createElement('button');
     deleteBtn.textContent = 'Delete task';
-    deleteBtn.classList.add('btn', 'btn-danger', 'ml-auto', 'delete-btn');
+    deleteBtn.classList.add('button', 'is-danger', 'is-rounded', 'ml-auto', 'delete-btn');
 
     const article = document.createElement('p');
     article.textContent = body;
     article.classList.add('mt-2', 'w-100');
 
+    const completeBtn = document.createElement('button');
+    completeBtn.textContent = 'Complete task';
+    completeBtn.classList.add('button', 'is-success', 'is-rounded', 'is-pulled-right', 'complete-btn');
+
     li.appendChild(span);
     li.appendChild(deleteBtn);
     li.appendChild(article);
+    li.appendChild(completeBtn);
 
     return li;
   }
@@ -106,6 +112,24 @@ import tasks from './tasks.js';
     return { ...newTask };
   }
 
+  // ==== Mark task is completed ====
+  function completeTaskStyle(article) {
+    article.classList.toggle('has-text-success');
+  }
+
+  function completeTask(id) {
+    objOfTasks[id].completed = !objOfTasks[id].completed;
+  }
+
+  function onCompleteTaskHandler({ target }) {
+    if (target.classList.contains('complete-btn')) {
+      const parent = target.closest('[data-task-id]');
+      const id = parent.dataset.taskId;
+
+      completeTask(id);
+    }
+  }
+
   // ==== Delete task ==== //
   function deleteTask(id) {
     const { title } = objOfTasks[id];
@@ -125,7 +149,7 @@ import tasks from './tasks.js';
       return;
     }
     element.remove();
-    console.log('tasks', tasks);
+
     isNoTasks(state);
   }
 
@@ -153,7 +177,7 @@ import tasks from './tasks.js';
     // return null;
   }
 
-  // layot conponent noTasks
+  // layout component noTasks
   function layoutNoTasks() {
     const noTasks = `
       <div class="section">
