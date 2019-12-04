@@ -1,37 +1,10 @@
-const tasks = [
-  {
-    _id: '5d2ca9e2e03d40b326596aa7',
-    completed: true,
-    body:
-      'Occaecat non ea quis occaecat ad culpa amet deserunt incididunt elit fugiat pariatur. Exercitation commodo culpa in veniam proident laboris in. Excepteur cupidatat eiusmod dolor consectetur exercitation nulla aliqua veniam fugiat irure mollit. Eu dolor dolor excepteur pariatur aute do do ut pariatur consequat reprehenderit deserunt.\r\n',
-    title: 'Eu ea incididunt sunt consectetur fugiat non.',
-  },
-  {
-    _id: '5d2ca9e29c8a94095c1288e0',
-    completed: false,
-    body:
-      'Aliquip cupidatat ex adipisicing veniam do tempor. Lorem nulla adipisicing et esse cupidatat qui deserunt in fugiat duis est qui. Est adipisicing ipsum qui cupidatat exercitation. Cupidatat aliqua deserunt id deserunt excepteur nostrud culpa eu voluptate excepteur. Cillum officia proident anim aliquip. Dolore veniam qui reprehenderit voluptate non id anim.\r\n',
-    title:
-      'Deserunt laborum id consectetur pariatur veniam occaecat occaecat tempor voluptate pariatur nulla reprehenderit ipsum.',
-  },
-  {
-    _id: '5d2ca9e2e03d40b3232496aa7',
-    completed: true,
-    body:
-      'Occaecat non ea quis occaecat ad culpa amet deserunt incididunt elit fugiat pariatur. Exercitation commodo culpa in veniam proident laboris in. Excepteur cupidatat eiusmod dolor consectetur exercitation nulla aliqua veniam fugiat irure mollit. Eu dolor dolor excepteur pariatur aute do do ut pariatur consequat reprehenderit deserunt.\r\n',
-    title: 'Eu ea incididunt sunt consectetur fugiat non.',
-  },
-  {
-    _id: '5d2ca9e29c8a94095564788e0',
-    completed: false,
-    body:
-      'Aliquip cupidatat ex adipisicing veniam do tempor. Lorem nulla adipisicing et esse cupidatat qui deserunt in fugiat duis est qui. Est adipisicing ipsum qui cupidatat exercitation. Cupidatat aliqua deserunt id deserunt excepteur nostrud culpa eu voluptate excepteur. Cillum officia proident anim aliquip. Dolore veniam qui reprehenderit voluptate non id anim.\r\n',
-    title:
-      'Deserunt laborum id consectetur pariatur veniam occaecat occaecat tempor voluptate pariatur nulla reprehenderit ipsum.',
-  },
-];
+import tasks from './tasks.js';
 
 (function(arrOfTasks) {
+  // state for new tasks
+  let state = [];
+
+  // array to object
   const objOfTasks = tasks.reduce((acc, task) => {
     acc[task._id] = task;
     return acc;
@@ -41,11 +14,17 @@ const tasks = [
   const listContainer = document.querySelector('.tasks-list-section .list-group');
 
   const form = document.forms['addTask'];
+  const formSection = document.querySelector('.form-section');
   const inputTitle = form.elements['title'];
   const inputBody = form.elements['body'];
+  // counts of "li"
+  const listLi = document.querySelector('.list-group');
+
+  // test on empty array == non tasks
+  isNoTasks(tasks);
 
   // Events
-  form.addEventListener('submit', onFormSumitHandler);
+  form.addEventListener('submit', onFormSubmitHandler);
   listContainer.addEventListener('click', onDeleteHandler);
 
   renderAllTasks(objOfTasks);
@@ -57,6 +36,7 @@ const tasks = [
     }
 
     const fragment = document.createDocumentFragment();
+
     Object.values(tasksList).forEach(task => {
       const li = listItemTemplate(task);
 
@@ -91,18 +71,21 @@ const tasks = [
     return li;
   }
 
-  function onFormSumitHandler(event) {
+  function onFormSubmitHandler(event) {
     event.preventDefault();
 
     const titleValue = inputTitle.value;
     const bodyValue = inputBody.value;
 
     if (!titleValue || !bodyValue) {
-      alert('Введите задчу и её название');
+      alert('Введите задачу и её название');
       return;
     }
 
     const task = createNewTask(titleValue, bodyValue);
+
+    setState(task);
+    console.log('state', state);
 
     const listItem = listItemTemplate(task);
     listContainer.insertAdjacentElement('afterbegin', listItem);
@@ -123,11 +106,11 @@ const tasks = [
     return { ...newTask };
   }
 
-  // Delete task
-
+  // ==== Delete task ==== //
   function deleteTask(id) {
     const { title } = objOfTasks[id];
     const isConfirm = confirm(`Вы уверены, что хотите удалить задачу: ${title}`);
+
     if (!isConfirm) {
       return isConfirm;
     }
@@ -142,6 +125,8 @@ const tasks = [
       return;
     }
     element.remove();
+    console.log('tasks', tasks);
+    isNoTasks(state);
   }
 
   function onDeleteHandler({ target }) {
@@ -149,7 +134,39 @@ const tasks = [
       const parent = target.closest('[data-task-id]');
       const id = parent.dataset.taskId;
       const confirmed = deleteTask(id);
+
       deleteTaskFromHtml(confirmed, parent);
     }
+  }
+
+  // ===== Work with state ===== //
+  function setState(task) {
+    return (state = [...state, task]);
+  }
+
+  // ======= No Tasks ======= //
+  // check that the array of tasks is empty
+  function isNoTasks(arrOfTasks) {
+    if (!arrOfTasks.length) {
+      renderNoTasks();
+    }
+    // return null;
+  }
+
+  // layot conponent noTasks
+  function layoutNoTasks() {
+    const noTasks = `
+      <div class="section">
+        <div class="container">
+          У вас нет актуальных задач
+        </div>
+      </div>
+    `;
+
+    return noTasks;
+  }
+
+  function renderNoTasks() {
+    formSection.insertAdjacentHTML('afterend', layoutNoTasks());
   }
 })(tasks);
