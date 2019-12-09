@@ -64,6 +64,7 @@ import tasks from './tasks.js';
     const article = document.createElement('p');
     article.textContent = body;
     article.classList.add('mt-2', 'w-100', 'task-body');
+
     // изменить цвет текста, если задача выполнена
     if (completed) {
       article.classList.add('has-text-success');
@@ -95,6 +96,8 @@ import tasks from './tasks.js';
     const task = createNewTask(titleValue, bodyValue);
 
     setState(task);
+
+    removeRenderedNoTasks();
 
     const listItem = listItemTemplate(task);
     listContainer.insertAdjacentElement('afterbegin', listItem);
@@ -179,13 +182,12 @@ import tasks from './tasks.js';
   // ======= No Tasks ======= //
   // check that the array of tasks is empty
   function isNoTasks(arrOfTasks) {
+    // determine how many properties in an object
     const length = Object.keys(arrOfTasks).length;
 
-    if (!length) {
+    if (length === 0) {
       renderNoTasks();
-      // layoutNoTasks();
     }
-    removeNoTasks();
   }
 
   // layout component noTasks
@@ -206,13 +208,18 @@ import tasks from './tasks.js';
     formSection.after(layoutNoTasks());
   }
 
-  function removeNoTasks() {
-    // layoutNoTasks().parentNode.removeChild(layoutNoTasks());
-    // const body = document.querySelector('body');
-    // const noTasks = body.querySelector('.no-tasks');
-    // return noTasks;
+  function removeRenderedNoTasks() {
+    const body = document.querySelector('body');
+    // const noTasks = body.getElementsByClassName('no-tasks');
+    const noTasks = body.querySelector('.no-tasks');
+    noTasks.parentNode.removeChild(noTasks);
+
+    // while (noTasks.length > 0) {
+    //   noTasks[0].parentNode.removeChild(noTasks[0]);
+    // }
+
+    return noTasks;
   }
-  console.log(removeNoTasks());
 
   console.log('objOfTasks', objOfTasks);
 })(tasks);
