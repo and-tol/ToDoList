@@ -63,7 +63,7 @@ import tasks from './tasks.js';
 
     const article = document.createElement('p');
     article.textContent = body;
-    article.classList.add('mt-2', 'w-100');
+    article.classList.add('mt-2', 'w-100', 'task-body');
     // изменить цвет текста, если задача выполнена
     if (completed) {
       article.classList.add('has-text-success');
@@ -124,8 +124,13 @@ import tasks from './tasks.js';
     if (target.classList.contains('complete-btn')) {
       const parent = target.closest('[data-task-id]');
       const id = parent.dataset.taskId;
+      const taskBody = parent.querySelector('.task-body');
 
       completeTask(id);
+
+      objOfTasks[id].completed
+        ? taskBody.setAttribute('style', 'color:#48c774!important')
+        : taskBody.setAttribute('style', '');
     }
   }
 
