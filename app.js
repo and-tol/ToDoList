@@ -66,7 +66,7 @@ import tasks from './tasks.js';
     span.textContent = title;
     span.style.fontWeight = 'bold';
 
-    const deleteBtn = isButton('deleteBtn', 'Delete task', 'is-danger', 'is-rounded');
+    const deleteBtn = isButton('deleteBtn', 'Delete task', 'is-danger', 'is-rounded', 'delete-btn');
     // deleteBtn.textContent = 'Delete task';
     // deleteBtn.classList.add('is-danger', 'is-rounded', 'ml-auto', 'delete-btn');
 
@@ -79,9 +79,9 @@ import tasks from './tasks.js';
       article.classList.add('has-text-success');
     }
 
-    const completeBtn = document.createElement('button');
-    completeBtn.textContent = 'Complete task';
-    completeBtn.classList.add('button', 'is-success', 'is-rounded', 'is-pulled-right', 'complete-btn');
+    // const completeBtn = document.createElement('button');
+    // completeBtn.textContent = 'Complete task';
+    // completeBtn.classList.add('button', 'is-success', 'is-rounded', 'is-pulled-right', 'complete-btn');
 
     li.appendChild(span);
     li.appendChild(deleteBtn);
