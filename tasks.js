@@ -1,7 +1,7 @@
 const tasks = [
   {
     _id: '5d2ca9e2e03d40b326596aa7',
-    completed: true,
+    completed: false,
     body:
       'Occaecat non ea quis occaecat ad culpa amet deserunt incididunt elit fugiat pariatur. Exercitation commodo culpa in veniam proident laboris in. Excepteur cupidatat eiusmod dolor consectetur exercitation nulla aliqua veniam fugiat irure mollit. Eu dolor dolor excepteur pariatur aute do do ut pariatur consequat reprehenderit deserunt.\r\n',
     title: 'Eu ea incididunt sunt consectetur fugiat non.',

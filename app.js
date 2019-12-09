@@ -20,6 +20,15 @@ import tasks from './tasks.js';
   // counts of "li"
   const listLi = document.querySelector('.list-group');
 
+  // interface buttons
+  function isButton(btnName, btnText, ...btnClass) {
+    btnName = document.createElement('button');
+    btnName.textContent = btnText;
+    btnName.classList.add('button', ...btnClass);
+
+    return btnName;
+  }
+
   // test on empty array == non tasks
   isNoTasks(objOfTasks);
 
@@ -57,9 +66,9 @@ import tasks from './tasks.js';
     span.textContent = title;
     span.style.fontWeight = 'bold';
 
-    const deleteBtn = document.createElement('button');
-    deleteBtn.textContent = 'Delete task';
-    deleteBtn.classList.add('button', 'is-danger', 'is-rounded', 'ml-auto', 'delete-btn');
+    const deleteBtn = isButton('deleteBtn', 'Delete task', 'is-danger', 'is-rounded');
+    // deleteBtn.textContent = 'Delete task';
+    // deleteBtn.classList.add('is-danger', 'is-rounded', 'ml-auto', 'delete-btn');
 
     const article = document.createElement('p');
     article.textContent = body;
@@ -77,7 +86,10 @@ import tasks from './tasks.js';
     li.appendChild(span);
     li.appendChild(deleteBtn);
     li.appendChild(article);
-    li.appendChild(completeBtn);
+    // li.appendChild(completeBtn);
+    li.appendChild(
+      isButton('completeBtn', 'Complete task', 'is-success', 'is-rounded', 'is-pulled-right', 'complete-btn')
+    );
 
     return li;
   }
@@ -220,6 +232,13 @@ import tasks from './tasks.js';
 
     return noTasks;
   }
+
+  // ===== Show complete or not complete tasks
+  // layout button for Show complete or not complete tasks
+  /* function layoutButtons(params) {
+    const buttonsSection = document.createElement('div');
+    buttonsSection.classList.add('section', 'show-complete-tasks');
+  } */
 
   console.log('objOfTasks', objOfTasks);
 })(tasks);
