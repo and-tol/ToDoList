@@ -21,7 +21,7 @@ import tasks from './tasks.js';
   const listLi = document.querySelector('.list-group');
 
   // test on empty array == non tasks
-  isNoTasks(tasks);
+  isNoTasks(objOfTasks);
 
   // Events
   form.addEventListener('submit', onFormSubmitHandler);
@@ -47,7 +47,7 @@ import tasks from './tasks.js';
     listContainer.appendChild(fragment);
   }
 
-  function listItemTemplate({ _id, title, body } = {}) {
+  function listItemTemplate({ _id, title, body, completed } = {}) {
     const li = document.createElement('li');
 
     li.classList.add('list-group-item', 'd-flex', 'align-items-center', 'flex-wrap', 'mt-2');
@@ -63,7 +63,11 @@ import tasks from './tasks.js';
 
     const article = document.createElement('p');
     article.textContent = body;
-    article.classList.add('mt-2', 'w-100');
+    article.classList.add('mt-2', 'w-100', 'task-body');
+    // изменить цвет текста, если задача выполнена
+    if (completed) {
+      article.classList.add('has-text-success');
+    }
 
     const completeBtn = document.createElement('button');
     completeBtn.textContent = 'Complete task';
@@ -91,7 +95,6 @@ import tasks from './tasks.js';
     const task = createNewTask(titleValue, bodyValue);
 
     setState(task);
-    console.log('state', state);
 
     const listItem = listItemTemplate(task);
     listContainer.insertAdjacentElement('afterbegin', listItem);
@@ -113,10 +116,6 @@ import tasks from './tasks.js';
   }
 
   // ==== Mark task is completed ====
-  function completeTaskStyle(article) {
-    article.classList.toggle('has-text-success');
-  }
-
   function completeTask(id) {
     objOfTasks[id].completed = !objOfTasks[id].completed;
   }
@@ -125,8 +124,13 @@ import tasks from './tasks.js';
     if (target.classList.contains('complete-btn')) {
       const parent = target.closest('[data-task-id]');
       const id = parent.dataset.taskId;
+      const taskBody = parent.querySelector('.task-body');
 
       completeTask(id);
+
+      objOfTasks[id].completed
+        ? taskBody.setAttribute('style', 'color:#48c774!important')
+        : taskBody.setAttribute('style', '');
     }
   }
 
@@ -141,6 +145,8 @@ import tasks from './tasks.js';
 
     delete objOfTasks[id];
 
+    isNoTasks(objOfTasks);
+
     return isConfirm;
   }
 
@@ -150,7 +156,7 @@ import tasks from './tasks.js';
     }
     element.remove();
 
-    isNoTasks(state);
+    // isNoTasks(objOfTasks);
   }
 
   function onDeleteHandler({ target }) {
@@ -165,32 +171,48 @@ import tasks from './tasks.js';
 
   // ===== Work with state ===== //
   function setState(task) {
-    return (state = [...state, task]);
+    const newObjOfTasks = { ...objOfTasks };
+
+    return { objOfTasks: newObjOfTasks };
   }
 
   // ======= No Tasks ======= //
   // check that the array of tasks is empty
   function isNoTasks(arrOfTasks) {
-    if (!arrOfTasks.length) {
+    const length = Object.keys(arrOfTasks).length;
+
+    if (!length) {
       renderNoTasks();
+      // layoutNoTasks();
     }
-    // return null;
+    removeNoTasks();
   }
 
   // layout component noTasks
   function layoutNoTasks() {
-    const noTasks = `
-      <div class="section">
-        <div class="container">
-          У вас нет актуальных задач
-        </div>
+    const noTasks = document.createElement('div');
+    noTasks.classList.add('section', 'no-tasks');
+    const divContainer = `
+      <div class="container">
+        У вас нет задач
       </div>
     `;
+    noTasks.insertAdjacentHTML('afterbegin', divContainer);
 
     return noTasks;
   }
 
   function renderNoTasks() {
-    formSection.insertAdjacentHTML('afterend', layoutNoTasks());
+    formSection.after(layoutNoTasks());
   }
+
+  function removeNoTasks() {
+    // layoutNoTasks().parentNode.removeChild(layoutNoTasks());
+    // const body = document.querySelector('body');
+    // const noTasks = body.querySelector('.no-tasks');
+    // return noTasks;
+  }
+  console.log(removeNoTasks());
+
+  console.log('objOfTasks', objOfTasks);
 })(tasks);
