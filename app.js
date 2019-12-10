@@ -11,7 +11,8 @@ import tasks from './tasks.js';
   }, {});
 
   // Elements UI
-  const listContainer = document.querySelector('.tasks-list-section .list-group');
+  const listSection = document.querySelector('.tasks-list-section');
+  const listContainer = document.querySelector('.list-group');
 
   const form = document.forms['addTask'];
   const formSection = document.querySelector('.form-section');
@@ -67,8 +68,6 @@ import tasks from './tasks.js';
     span.style.fontWeight = 'bold';
 
     const deleteBtn = isButton('deleteBtn', 'Delete task', 'is-danger', 'is-rounded', 'delete-btn');
-    // deleteBtn.textContent = 'Delete task';
-    // deleteBtn.classList.add('is-danger', 'is-rounded', 'ml-auto', 'delete-btn');
 
     const article = document.createElement('p');
     article.textContent = body;
@@ -170,8 +169,6 @@ import tasks from './tasks.js';
       return;
     }
     element.remove();
-
-    // isNoTasks(objOfTasks);
   }
 
   function onDeleteHandler({ target }) {
@@ -199,6 +196,8 @@ import tasks from './tasks.js';
 
     if (length === 0) {
       renderNoTasks();
+      // delete filed group buttons of complete
+      // removeCompleteButtons();
     }
   }
 
@@ -222,8 +221,11 @@ import tasks from './tasks.js';
 
   function removeRenderedNoTasks() {
     const body = document.querySelector('body');
-    // const noTasks = body.getElementsByClassName('no-tasks');
     const noTasks = body.querySelector('.no-tasks');
+    console.log('noTasks', noTasks);
+    if (noTasks === null) {
+      return;
+    }
     noTasks.parentNode.removeChild(noTasks);
 
     // while (noTasks.length > 0) {
@@ -233,12 +235,52 @@ import tasks from './tasks.js';
     return noTasks;
   }
 
-  // ===== Show complete or not complete tasks
-  // layout button for Show complete or not complete tasks
-  /* function layoutButtons(params) {
-    const buttonsSection = document.createElement('div');
-    buttonsSection.classList.add('section', 'show-complete-tasks');
-  } */
+  // ===== Show complete or not incomplete tasks ==== //
+  // function layoutButtons() {
+  //   const buttonsContainer = document.createElement('div');
+  //   buttonsContainer.classList.add('container', 'show-complete-tasks');
 
+  //   const buttonField = document.createElement('div');
+  //   // buttonField.classList.add('field', 'is-grouped');
+  //   buttonField.classList.add('field', 'is-grouped');
+
+  //   buttonsContainer.appendChild(buttonField);
+
+  //   const buttonComplete = isButton(
+  //     'completeBtn',
+  //     'Complete tasks',
+  //     'is-success',
+  //     'is-outlined',
+  //     'is-rounded',
+  //     'complete-btn'
+  //   );
+  //   const buttonIncomplete = isButton(
+  //     'incompleteBtn',
+  //     'Incomplete tasks',
+  //     'is-info',
+  //     'is-outlined',
+  //     'is-rounded',
+  //     'incomplete-btn'
+  //   );
+
+  //   buttonField.appendChild(buttonComplete);
+  //   buttonField.appendChild(buttonIncomplete);
+
+  //   buttonsContainer.appendChild(buttonField);
+
+  //   return buttonsContainer;
+  // }
+
+  // function makeCompleteButtons() {
+  //   listSection.prepend(layoutButtons());
+  // }
+
+  // function removeCompleteButtons() {
+  //   const showCompleteTasks = listSection.querySelector('.show-complete-tasks');
+
+  //   showCompleteTasks.parentNode.removeChild(showCompleteTasks);
+  // }
+
+  console.log('listSection', listSection);
   console.log('objOfTasks', objOfTasks);
 })(tasks);
