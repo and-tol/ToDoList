@@ -38,6 +38,7 @@ import tasks from './tasks.js';
   listContainer.addEventListener('click', onDeleteHandler);
   listContainer.addEventListener('click', onCompleteTaskHandler);
 
+  // First render
   renderAllTasks(objOfTasks);
 
   function renderAllTasks(tasksList) {
@@ -236,51 +237,50 @@ import tasks from './tasks.js';
   }
 
   // ===== Show complete or not incomplete tasks ==== //
-  // function layoutButtons() {
-  //   const buttonsContainer = document.createElement('div');
-  //   buttonsContainer.classList.add('container', 'show-complete-tasks');
+  function layoutButtons() {
+    const buttonsContainer = document.createElement('div');
+    buttonsContainer.classList.add('container', 'show-complete-tasks');
 
-  //   const buttonField = document.createElement('div');
-  //   // buttonField.classList.add('field', 'is-grouped');
-  //   buttonField.classList.add('field', 'is-grouped');
+    const buttonField = document.createElement('div');
+    // buttonField.classList.add('field', 'is-grouped');
+    buttonField.classList.add('field', 'is-grouped');
 
-  //   buttonsContainer.appendChild(buttonField);
+    buttonsContainer.appendChild(buttonField);
 
-  //   const buttonComplete = isButton(
-  //     'completeBtn',
-  //     'Complete tasks',
-  //     'is-success',
-  //     'is-outlined',
-  //     'is-rounded',
-  //     'complete-btn'
-  //   );
-  //   const buttonIncomplete = isButton(
-  //     'incompleteBtn',
-  //     'Incomplete tasks',
-  //     'is-info',
-  //     'is-outlined',
-  //     'is-rounded',
-  //     'incomplete-btn'
-  //   );
+    const buttonComplete = isButton(
+      'completeBtn',
+      'Complete tasks',
+      'is-success',
+      'is-outlined',
+      'is-rounded',
+      'complete-btn'
+    );
+    const buttonIncomplete = isButton(
+      'incompleteBtn',
+      'Incomplete tasks',
+      'is-info',
+      'is-outlined',
+      'is-rounded',
+      'incomplete-btn'
+    );
 
-  //   buttonField.appendChild(buttonComplete);
-  //   buttonField.appendChild(buttonIncomplete);
+    buttonField.appendChild(buttonComplete);
+    buttonField.appendChild(buttonIncomplete);
 
-  //   buttonsContainer.appendChild(buttonField);
+    buttonsContainer.appendChild(buttonField);
 
-  //   return buttonsContainer;
-  // }
+    return buttonsContainer;
+  }
 
-  // function makeCompleteButtons() {
-  //   listSection.prepend(layoutButtons());
-  // }
+  function makeCompleteButtons() {
+    listSection.prepend(layoutButtons());
+  }
 
-  // function removeCompleteButtons() {
-  //   const showCompleteTasks = listSection.querySelector('.show-complete-tasks');
+  function removeCompleteButtons() {
+    const showCompleteTasks = listSection.querySelector('.show-complete-tasks');
 
-  //   showCompleteTasks.parentNode.removeChild(showCompleteTasks);
-  // }
+    showCompleteTasks.parentNode.removeChild(showCompleteTasks);
+  }
 
-  console.log('listSection', listSection);
   console.log('objOfTasks', objOfTasks);
 })(tasks);
