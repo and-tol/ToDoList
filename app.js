@@ -56,6 +56,9 @@ import tasks from './tasks.js';
     });
 
     listContainer.appendChild(fragment);
+
+    // add complete buttons
+    makeCompleteButtons();
   }
 
   function listItemTemplate({ _id, title, body, completed } = {}) {
@@ -197,8 +200,8 @@ import tasks from './tasks.js';
 
     if (length === 0) {
       renderNoTasks();
-      // delete filed group buttons of complete
-      // removeCompleteButtons();
+      // delete filed group complete buttons
+      removeCompleteButtons();
     }
   }
 
@@ -223,7 +226,7 @@ import tasks from './tasks.js';
   function removeRenderedNoTasks() {
     const body = document.querySelector('body');
     const noTasks = body.querySelector('.no-tasks');
-    console.log('noTasks', noTasks);
+
     if (noTasks === null) {
       return;
     }
