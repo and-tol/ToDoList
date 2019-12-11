@@ -21,7 +21,7 @@ import tasks from './tasks.js';
   // counts of "li"
   const listLi = document.querySelector('.list-group');
 
-  // interface buttons
+  // interface buttons template
   function isButton(btnName, btnText, ...btnClass) {
     btnName = document.createElement('button');
     btnName.textContent = btnText;
@@ -37,6 +37,10 @@ import tasks from './tasks.js';
   form.addEventListener('submit', onFormSubmitHandler);
   listContainer.addEventListener('click', onDeleteHandler);
   listContainer.addEventListener('click', onCompleteTaskHandler);
+  listSection.addEventListener('click', showCompleteTasksHandler);
+  // listSection.addEventListener('click', showAllTasksHandler);
+
+  console.log('listSection', listSection);
 
   // First render
   renderAllTasks(objOfTasks);
@@ -134,8 +138,14 @@ import tasks from './tasks.js';
   }
 
   // ==== Mark task is completed ====
-  function completeTask(id) {
+  function setCompleteTask(id) {
     objOfTasks[id].completed = !objOfTasks[id].completed;
+  }
+
+  function coloredCompleteTask(id, textBody) {
+    objOfTasks[id].completed
+      ? textBody.setAttribute('style', 'color:#48c774!important')
+      : textBody.setAttribute('style', '');
   }
 
   function onCompleteTaskHandler({ target }) {
@@ -144,11 +154,9 @@ import tasks from './tasks.js';
       const id = parent.dataset.taskId;
       const taskBody = parent.querySelector('.task-body');
 
-      completeTask(id);
+      setCompleteTask(id);
 
-      objOfTasks[id].completed
-        ? taskBody.setAttribute('style', 'color:#48c774!important')
-        : taskBody.setAttribute('style', '');
+      coloredCompleteTask(id, taskBody);
     }
   }
 
@@ -245,7 +253,6 @@ import tasks from './tasks.js';
     buttonsContainer.classList.add('container', 'show-complete-tasks');
 
     const buttonField = document.createElement('div');
-    // buttonField.classList.add('field', 'is-grouped');
     buttonField.classList.add('field', 'is-grouped');
 
     buttonsContainer.appendChild(buttonField);
@@ -256,7 +263,7 @@ import tasks from './tasks.js';
       'is-success',
       'is-outlined',
       'is-rounded',
-      'complete-btn'
+      'complete-tasks-btn'
     );
     const buttonIncomplete = isButton(
       'incompleteBtn',
@@ -264,7 +271,7 @@ import tasks from './tasks.js';
       'is-info',
       'is-outlined',
       'is-rounded',
-      'incomplete-btn'
+      'incomplete-tasks-btn'
     );
 
     buttonField.appendChild(buttonComplete);
@@ -283,6 +290,14 @@ import tasks from './tasks.js';
     const showCompleteTasks = listSection.querySelector('.show-complete-tasks');
 
     showCompleteTasks.parentNode.removeChild(showCompleteTasks);
+  }
+
+  // showCompleteTasksHandler (event.target)
+  function showCompleteTasksHandler({ target }) {
+    console.log('target', target.closest('.tasks-list-section'));
+    if (target.classList.contains('complete-tasks-btn')) {
+      const parent = target.closest('.tasks-list-section');
+    }
   }
 
   console.log('objOfTasks', objOfTasks);
