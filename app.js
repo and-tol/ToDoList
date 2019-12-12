@@ -10,7 +10,7 @@ import tasks from './tasks.js';
     return acc;
   }, {});
 
-  // Elements UI
+  // === Elements UI === //
   const listSection = document.querySelector('.tasks-list-section');
 
   const listContainer = document.querySelector('.list-group');
@@ -21,7 +21,7 @@ import tasks from './tasks.js';
   const inputBody = form.elements['body'];
   // counts of "li"
   const listLi = document.querySelector('.list-group');
-
+  const isCompleteButtons = listSection.querySelector('.show-complete-tasks');
   // interface buttons template
   function isButton(btnName, btnText, ...btnClass) {
     btnName = document.createElement('button');
@@ -30,6 +30,8 @@ import tasks from './tasks.js';
 
     return btnName;
   }
+
+  // === End Element UI === //
 
   // test on empty array == non tasks
   isNoTasks(objOfTasks);
@@ -65,9 +67,7 @@ import tasks from './tasks.js';
 
     listContainer.appendChild(fragment);
 
-    // add complete buttons
-    // FIXME: move func other place?
-    makeCompleteButtons();
+    testCompleteButtons();
   }
 
   function listItemTemplate({ _id, title, body, completed } = {}) {
@@ -127,12 +127,7 @@ import tasks from './tasks.js';
 
     listContainer.insertAdjacentElement('afterbegin', listItem);
 
-    // TODO: check if there is the block of complete buttons
-    const isCompleteButtons = listSection.querySelector('.show-complete-tasks');
-    // isCompleteButtons === showCompleteTasks
-    if (!isCompleteButtons) {
-      makeCompleteButtons();
-    }
+    testCompleteButtons();
 
     form.reset;
   }
@@ -304,8 +299,17 @@ import tasks from './tasks.js';
     listSection.prepend(layoutCompleteButtons());
   }
 
+  function testCompleteButtons() {
+    const isCompleteButtons = listSection.querySelector('.show-complete-tasks');
+
+    if (!isCompleteButtons) {
+      makeCompleteButtons();
+    }
+  }
+
   function removeCompleteButtons() {
     const isCompleteButtons = listSection.querySelector('.show-complete-tasks');
+
     if (isCompleteButtons) {
       isCompleteButtons.parentNode.removeChild(isCompleteButtons);
     }
@@ -315,8 +319,6 @@ import tasks from './tasks.js';
   function showIncompleteTasksHandler({ target }) {
     const incompleteTasks = {};
 
-    console.log(target);
-
     if (target.classList.contains('incomplete-tasks-btn')) {
       // const parent = target.closest('.tasks-list-section');
       for (const task in objOfTasks) {
@@ -324,8 +326,8 @@ import tasks from './tasks.js';
           incompleteTasks[task] = objOfTasks[task];
         }
       }
-      //   console.log('incomplete');
       removeAllTasks();
+
       renderAllTasks(incompleteTasks);
     }
   }
