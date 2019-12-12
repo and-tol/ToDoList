@@ -12,6 +12,7 @@ import tasks from './tasks.js';
 
   // Elements UI
   const listSection = document.querySelector('.tasks-list-section');
+
   const listContainer = document.querySelector('.list-group');
 
   const form = document.forms['addTask'];
@@ -33,14 +34,19 @@ import tasks from './tasks.js';
   // test on empty array == non tasks
   isNoTasks(objOfTasks);
 
-  // Events
+  // === Events === //
+  // add new task
   form.addEventListener('submit', onFormSubmitHandler);
+  // delete task
   listContainer.addEventListener('click', onDeleteHandler);
+  // set complete task
   listContainer.addEventListener('click', onCompleteTaskHandler);
+  // set incomplete task
   listSection.addEventListener('click', showIncompleteTasksHandler);
   // listSection.addEventListener('click', showAllTasksHandler);
+  // === End Events === //
 
-  // First render
+  // First render tasks
   renderAllTasks(objOfTasks);
 
   function renderAllTasks(tasksList) {
@@ -118,7 +124,15 @@ import tasks from './tasks.js';
     removeRenderedNoTasks();
 
     const listItem = listItemTemplate(task);
+
     listContainer.insertAdjacentElement('afterbegin', listItem);
+
+    // TODO: check if there is the block of complete buttons
+    const isCompleteButtons = listSection.querySelector('.show-complete-tasks');
+    // isCompleteButtons === showCompleteTasks
+    if (!isCompleteButtons) {
+      makeCompleteButtons();
+    }
 
     form.reset;
   }
@@ -140,7 +154,7 @@ import tasks from './tasks.js';
   function setCompleteTask(id) {
     const newObjOfTasks = { ...objOfTasks };
 
-    objOfTasks[id].completed = !objOfTasks[id].completed;
+    newObjOfTasks[id].completed = !newObjOfTasks[id].completed;
 
     return { objOfTasks: newObjOfTasks };
   }
@@ -252,7 +266,7 @@ import tasks from './tasks.js';
   }
 
   // ===== Show complete or not incomplete tasks ==== //
-  function layoutButtons() {
+  function layoutCompleteButtons() {
     const buttonsContainer = document.createElement('div');
     buttonsContainer.classList.add('container', 'show-complete-tasks');
 
@@ -287,18 +301,21 @@ import tasks from './tasks.js';
   }
 
   function makeCompleteButtons() {
-    listSection.prepend(layoutButtons());
+    listSection.prepend(layoutCompleteButtons());
   }
 
   function removeCompleteButtons() {
-    const showCompleteTasks = listSection.querySelector('.show-complete-tasks');
-
-    showCompleteTasks.parentNode.removeChild(showCompleteTasks);
+    const isCompleteButtons = listSection.querySelector('.show-complete-tasks');
+    if (isCompleteButtons) {
+      isCompleteButtons.parentNode.removeChild(isCompleteButtons);
+    }
   }
 
-  // showIncompleteTasksHandler (event.target)
+  // --- showIncompleteTasksHandler
   function showIncompleteTasksHandler({ target }) {
     const incompleteTasks = {};
+
+    console.log(target);
 
     if (target.classList.contains('incomplete-tasks-btn')) {
       // const parent = target.closest('.tasks-list-section');
@@ -307,23 +324,18 @@ import tasks from './tasks.js';
           incompleteTasks[task] = objOfTasks[task];
         }
       }
-
-      // TODO: first remove all tasks
-      // show only incomplete tasks
+      //   console.log('incomplete');
+      removeAllTasks();
+      renderAllTasks(incompleteTasks);
     }
-    console.log('incompleteTasks', incompleteTasks);
-    removeAllTasks();
-    renderAllTasks(incompleteTasks);
-    console.log('renderAllTasks(incompleteTasks)', renderAllTasks(incompleteTasks));
   }
 
   // Remove all tasks from layout
   function removeAllTasks() {
     listSection.innerHTML = '';
-    console.log(listSection.innerHTML);
 
     // v2 ?
-    listSection.querySelectorAll('*').forEach(n => n.remove);
+    // listSection.querySelectorAll('*').forEach(n => n.remove);
   }
 
   console.log('objOfTasks', objOfTasks);
